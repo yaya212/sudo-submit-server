@@ -1,5 +1,6 @@
 package com.example.websocketdemo.controller;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import com.example.websocketdemo.model.ChatMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +12,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+
 /**
  * Created by rajeevkumarsingh on 25/07/17.
  */
 @Component
 public class WebSocketEventListener {
+
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketEventListener.class);
 
@@ -25,6 +28,7 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         logger.info("Received a new web socket connection");
+
     }
 
     @EventListener
@@ -34,7 +38,6 @@ public class WebSocketEventListener {
         String username = (String) headerAccessor.getSessionAttributes().get("username");
         if(username != null) {
             logger.info("User Disconnected : " + username);
-
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
